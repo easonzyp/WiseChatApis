@@ -1,21 +1,36 @@
-package com.wiseapis.chat.utils;
+package com.wiseapis.chat.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TokenUtils {
+@Service
+public class JwtService {
+
+    @Autowired
+    private HttpServletRequest request;
+
     //设置过期时间
     private static final long EXPIRE_DATE = 30 * 60 * 100000;
     //token秘钥
     private static final String TOKEN_SECRET = "ZCEQIUBFKSJBFJH2020BQWE";
+    private static final String HEADER = "Authorization";
+    private static final String TOKEN_USER_ID = "userId";
 
-    public static String token(String username, String password) {
+    public int getUserId() {
+        return verifyToken(TOKEN_USER_ID);
+    }
+
+    public static String token(int id) {
 
         String token;
         try {
@@ -30,8 +45,8 @@ public class TokenUtils {
             //携带username，password信息，生成签名
             token = JWT.create()
                     .withHeader(header)
-                    .withClaim("username", username)
-                    .withClaim("password", password).withExpiresAt(date)
+                    .withClaim(TOKEN_USER_ID, id)
+                    .withExpiresAt(date)
                     .sign(algorithm);
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,19 +55,14 @@ public class TokenUtils {
         return token;
     }
 
-    public static boolean verify(String token) {
-        /**
-         * @desc 验证token，通过返回true
-         * @params [token]需要校验的串
-         **/
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
-            JWTVerifier verifier = JWT.require(algorithm).build();
-            DecodedJWT jwt = verifier.verify(token);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    private int verifyToken(String key) {
+        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(TOKEN_SECRET)).build();
+        DecodedJWT decodedJWT = jwtVerifier.verify(request.getHeader(HEADER));
+        Map<String, Claim> claims = decodedJWT.getClaims();
+
+        Map<String, Integer> returnMap = new HashMap<>(claims.size());
+        claims.forEach((k, v) -> returnMap.put(k, v.asInt()));
+
+        return returnMap.get(key);
     }
 }

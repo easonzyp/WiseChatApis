@@ -9,12 +9,16 @@ import org.springframework.stereotype.Component;
 @Mapper
 public interface UserDao {
 
-    void createUser(@Param(value = "userName") String userName,
-                    @Param(value = "password") String password,
-                    @Param(value = "userToken") String userToken);
+    void createUser(@Param(value = "nickname") String nickname,
+                    @Param(value = "userName") String userName,
+                    @Param(value = "password") String password);
 
     UserBean login(@Param(value = "userName") String userName,
                    @Param(value = "password") String password);
 
     UserBean getUserByName(@Param(value = "userName") String userName);
+
+    UserBean getUserById(@Param(value = "id") int id);
+
+    void saveToken(@Param(value = "userToken") String userToken, @Param(value = "id") int id);
 }

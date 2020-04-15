@@ -1,7 +1,7 @@
 package com.wiseapis.chat.bean;
 
 public class UserBean {
-    private int userId;
+    private int id;
     private String userName;
     private String nickname;
     private String userToken;
@@ -10,12 +10,12 @@ public class UserBean {
     private String sex;
     private String desc;
 
-    public int getUserId() {
-        return userId;
+    public int getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getPassword() {

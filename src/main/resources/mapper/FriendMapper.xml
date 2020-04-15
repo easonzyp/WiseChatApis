@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wiseapis.chat.dao.FriendDao">
+
+    <insert id="applyFriend">
+        INSERT INTO friendapplyrecord (fromUserId, toUserId)
+        VALUES (#{fromUserId}, #{toUserId})
+    </insert>
+
+    <select id="getFriendApplyList" resultType="com.wiseapis.chat.bean.UserBean">
+        SELECT *
+        FROM user
+        WHERE id IN (SELECT friendapplyrecord.toUserId
+                     FROM friendapplyrecord
+                     WHERE toUserId = #{toUserId})
+    </select>
+
+    <delete id="deleteApplyRecord">
+        DELETE FROM friendapplyrecord
+        WHERE fromUserId = #{fromUserId} AND toUserId = #{toUserId}
+    </delete>
+
+    <insert id="agreeFriend">
+        INSERT INTO friends (friendId, userId, remarkName) VALUES (#{friendId}, #{userId}, #{remarkName})
+    </insert>
+</mapper>

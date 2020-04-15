@@ -7,7 +7,11 @@ import org.springframework.stereotype.Component;
 public interface UserService {
     UserBean login(String userName, String password);
 
-    UserBean createUser(String userName, String password, String userToken);
+    UserBean createUser(String userName, String password);
 
     UserBean getUserByName(String userName);
+
+    UserBean getUserById(int id);
+
+    void saveToken(String userToken, int id);
 }

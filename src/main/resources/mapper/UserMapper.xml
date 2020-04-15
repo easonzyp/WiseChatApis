@@ -3,8 +3,15 @@
 <mapper namespace="com.wiseapis.chat.dao.UserDao">
 
     <insert id="createUser">
-        INSERT INTO user (userName, password, userToken) VALUES (#{userName}, #{password}, #{userToken})
+        INSERT INTO user (nickname, userName, password)
+        VALUES (#{nickname}, #{userName}, #{password})
     </insert>
+
+    <update id="saveToken">
+        UPDATE user
+        SET userToken = #{userToken}
+        WHERE id = #{id}
+    </update>
 
     <select id="login" resultType="com.wiseapis.chat.bean.UserBean">
         SELECT *
@@ -16,5 +23,11 @@
         SELECT *
         FROM user
         WHERE userName = #{userName}
+    </select>
+
+    <select id="getUserById" resultType="com.wiseapis.chat.bean.UserBean">
+        SELECT *
+        FROM user
+        WHERE id = #{id}
     </select>
 </mapper>
