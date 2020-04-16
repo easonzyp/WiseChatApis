@@ -10,9 +10,9 @@
     <select id="getFriendApplyList" resultType="com.wiseapis.chat.bean.UserBean">
         SELECT *
         FROM user
-        WHERE id IN (SELECT friendapplyrecord.toUserId
+        WHERE id IN (SELECT friendapplyrecord.fromUserId
                      FROM friendapplyrecord
-                     WHERE toUserId = #{toUserId})
+                     WHERE friendapplyrecord.toUserId = #{toUserId})
     </select>
 
     <delete id="deleteApplyRecord">
@@ -20,7 +20,19 @@
         WHERE fromUserId = #{fromUserId} AND toUserId = #{toUserId}
     </delete>
 
-    <insert id="agreeFriend">
-        INSERT INTO friends (friendId, userId, remarkName) VALUES (#{friendId}, #{userId}, #{remarkName})
+    <insert id="addFriendShip">
+        INSERT INTO friends(friendId, userId, remarkName)
+        VALUES
+        <foreach collection="friendList" item="friend" separator=",">
+            (#{friend.friendId},#{friend.userId},#{friend.remarkName})
+        </foreach>
     </insert>
+
+    <select id="getFriendList" resultType="com.wiseapis.chat.bean.UserBean">
+        SELECT *
+        FROM user
+        WHERE id IN (SELECT friends.friendId
+                     FROM friends
+                     WHERE friends.userId = #{userId})
+    </select>
 </mapper>

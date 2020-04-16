@@ -30,4 +30,9 @@
         FROM user
         WHERE id = #{id}
     </select>
+
+    <select id="getUserList" resultType="com.wiseapis.chat.bean.UserBean">
+        SELECT *
+        FROM user
+    </select>
 </mapper>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wiseapis.chat.dao.MessageDao">
+
+    <insert id="addMessage">
+        INSERT INTO messages (content, messageStatus, messageTime, fromUserId, toUserId)
+        VALUES (#{message.content}, #{message.messageStatus}, #{message.messageTime}, #{message.fromUserId},
+                #{message.toUserId})
+    </insert>
+
+</mapper>

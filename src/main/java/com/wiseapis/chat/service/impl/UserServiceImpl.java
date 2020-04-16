@@ -8,6 +8,8 @@ import com.wiseapis.chat.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service(value = "UserService")
 public class UserServiceImpl implements UserService {
 
@@ -37,6 +39,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserBean getUserById(int id) {
         return userDao.getUserById(id);
+    }
+
+    @Override
+    public List<UserBean> getUserList() {
+        return userDao.getUserList();
     }
 
     @Override

@@ -18,8 +18,8 @@ public class FriendServiceImpl implements FriendService {
     FriendDao friendDao;
 
     @Override
-    public void applyFriend(int toUserId) {
-        friendDao.applyFriend(toUserId);
+    public void applyFriend(int fromUserId, int toUserId) {
+        friendDao.applyFriend(fromUserId, toUserId);
     }
 
     @Override
@@ -28,13 +28,13 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public void agreeFriend(int fromUserId, int toUserId) {
-        friendDao.deleteApplyRecord(fromUserId, toUserId);
-        friendDao.agreeFriend(toUserId, fromUserId);
+    public void agreeFriend(List<FriendBean> friendList) {
+        friendDao.deleteApplyRecord(friendList.get(0).getUserId(), friendList.get(0).getFriendId());
+        friendDao.addFriendShip(friendList);
     }
 
     @Override
-    public List<FriendBean> getFriendList(int userId) {
-        return null;
+    public List<UserBean> getFriendList(int userId) {
+        return friendDao.getFriendList(userId);
     }
 }

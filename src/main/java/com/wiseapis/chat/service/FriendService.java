@@ -8,11 +8,11 @@ import java.util.List;
 
 @Component
 public interface FriendService {
-    void applyFriend(int toUserId);
+    void applyFriend(int fromUserId, int toUserId);
 
     List<UserBean> getApplyRecordList(int toUserId);
 
-    void agreeFriend(int fromUserId, int toUserId);
+    void agreeFriend(List<FriendBean> friendList);
 
-    List<FriendBean> getFriendList(int userId);
+    List<UserBean> getFriendList(int userId);
 }

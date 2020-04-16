@@ -11,7 +11,9 @@ import com.wiseapis.chat.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -75,9 +77,15 @@ public class UserController {
     }
 
     @UserLoginToken
-    @RequestMapping("/test")
-    public Result test() {
-
-        return ResultGenerator.genSuccessResult(jwtService.getUserId());
+    @RequestMapping(value = "/searchUser", method = RequestMethod.POST)
+    public Result searchUser(@RequestBody HashMap<String, String> params) {
+        String userName = params.get("userName");
+        List<UserBean> userList = new ArrayList<>();
+        if (StringUtil.isEmpty(userName)) {
+            userList.addAll(userService.getUserList());
+        } else {
+            userList.add(userService.getUserByName(userName));
+        }
+        return ResultGenerator.genSuccessResult(userList);
     }
 }
