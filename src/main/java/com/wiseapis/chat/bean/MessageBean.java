@@ -1,12 +1,10 @@
 package com.wiseapis.chat.bean;
 
-import java.util.Date;
-
 public class MessageBean {
     private int id;
     private String content;
     private int messageStatus;
-    private Date messageTime;
+    private String messageTime;
     private int fromUserId;
     private int toUserId;
 
@@ -34,11 +32,11 @@ public class MessageBean {
         this.messageStatus = messageStatus;
     }
 
-    public Date getMessageTime() {
+    public String getMessageTime() {
         return messageTime;
     }
 
-    public void setMessageTime(Date messageTime) {
+    public void setMessageTime(String messageTime) {
         this.messageTime = messageTime;
     }
 

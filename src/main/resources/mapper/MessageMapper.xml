@@ -3,9 +3,13 @@
 <mapper namespace="com.wiseapis.chat.dao.MessageDao">
 
     <insert id="addMessage">
-        INSERT INTO messages (content, messageStatus, messageTime, fromUserId, toUserId)
-        VALUES (#{message.content}, #{message.messageStatus}, #{message.messageTime}, #{message.fromUserId},
-                #{message.toUserId})
+        INSERT INTO messages (content, fromUserId, toUserId)
+        VALUES (#{message.content}, #{message.fromUserId}, #{message.toUserId})
     </insert>
 
+    <select id="getMessageHistory" resultType="com.wiseapis.chat.bean.MessageBean">
+        SELECT *
+        FROM messages
+        WHERE fromUserId = #{fromUserId} OR fromUserId = #{toUserId}
+    </select>
 </mapper>
