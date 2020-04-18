@@ -5,6 +5,7 @@ import com.wiseapis.chat.base.ResultGenerator;
 import com.wiseapis.chat.bean.MessageBean;
 import com.wiseapis.chat.bean.UserBean;
 import com.wiseapis.chat.interceptor.UserLoginToken;
+import com.wiseapis.chat.service.ChatService;
 import com.wiseapis.chat.service.JwtService;
 import com.wiseapis.chat.service.MessageService;
 import com.wiseapis.chat.service.UserService;
@@ -26,6 +27,8 @@ public class MessageController {
     UserService userService;
     @Autowired
     JwtService jwtService;
+    @Autowired
+    ChatService chatService;
 
     @UserLoginToken
     @ResponseBody
@@ -40,6 +43,12 @@ public class MessageController {
         message.setFromUserId(fromUserId);
         message.setToUserId(toUserId);
         messageService.addMessage(message);
+
+//        Map<String, Object> messageMap = new HashMap<>();
+//        messageMap.put("content", content);
+//        messageMap.put("time", messageTemp.getMessageTime());
+
+        chatService.sendToUser(String.valueOf(toUserId), content);
         return ResultGenerator.genSuccessResult();
     }
 

@@ -62,10 +62,6 @@ public class FriendController {
         friend2.setRemarkName(fromUserName);
         friendList.add(friend2);
 
-        for (int i = 0; i < friendList.size(); i++) {
-            System.out.print(friendList.get(i).getUserId());
-        }
-
         friendService.agreeFriend(friendList);
         return ResultGenerator.genSuccessResult();
     }
