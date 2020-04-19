@@ -37,9 +37,8 @@ public class ChatService {
         try {
             if (webSocketSet.get(toUserId) != null) {
                 webSocketSet.get(toUserId).sendMessage(message);
-            } else {
-                System.out.println("当前用户不在线");
             }
+            System.out.println(message);
         } catch (IOException | EncodeException e) {
             e.printStackTrace();
         }

@@ -7,7 +7,7 @@ public class UserBean {
     private String userToken;
     private String password;
     private int age;
-    private String sex;
+    private int sex;
     private String desc;
 
     public int getId() {
@@ -50,11 +50,11 @@ public class UserBean {
         this.age = age;
     }
 
-    public String getSex() {
+    public int getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(int sex) {
         this.sex = sex;
     }
 

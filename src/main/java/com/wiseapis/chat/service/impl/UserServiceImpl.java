@@ -7,10 +7,12 @@ import com.wiseapis.chat.utils.RandomUtil;
 import com.wiseapis.chat.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service(value = "UserService")
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired

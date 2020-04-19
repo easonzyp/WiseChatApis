@@ -77,6 +77,13 @@ public class UserController {
     }
 
     @UserLoginToken
+    @RequestMapping(value = "/getUserInfo", method = RequestMethod.POST)
+    public Result getUserInfo() {
+        int userId = jwtService.getUserId();
+        return ResultGenerator.genSuccessResult(userService.getUserById(userId));
+    }
+
+    @UserLoginToken
     @RequestMapping(value = "/searchUser", method = RequestMethod.POST)
     public Result searchUser(@RequestBody HashMap<String, String> params) {
         String userName = params.get("userName");

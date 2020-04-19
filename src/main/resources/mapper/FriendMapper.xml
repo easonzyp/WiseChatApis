@@ -2,37 +2,99 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wiseapis.chat.dao.FriendDao">
 
+    <!--申请好友-->
     <insert id="applyFriend">
         INSERT INTO friendapplyrecord (fromUserId, toUserId)
         VALUES (#{fromUserId}, #{toUserId})
     </insert>
 
-    <select id="getFriendApplyList" resultType="com.wiseapis.chat.bean.UserBean">
-        SELECT *
-        FROM user
-        WHERE id IN (SELECT friendapplyrecord.fromUserId
-                     FROM friendapplyrecord
-                     WHERE friendapplyrecord.toUserId = #{toUserId})
+    <!--修改添加状态 设置为已添加-->
+    <update id="agreeFriend">
+        UPDATE friendapplyrecord
+        SET addStatus = 1
+        WHERE fromUserId = #{fromUserId} and toUserId = #{toUserId}
+    </update>
+
+    <!--获取好友的添加状态-->
+    <select id="getAddStatus" resultType="java.lang.String">
+        select addStatus from friendapplyrecord
+        where (fromUserId = #{fromUserId} and toUserId = #{toUserId}) or (fromUserId = #{toUserId} and toUserId = #{fromUserId})
     </select>
 
+    <!--获取申请记录中 未添加好友的个数-->
+    <select id="getNoAddFriendCount" resultType="java.lang.Integer">
+       SELECT count(u.id)
+        FROM user u,friendapplyrecord f1
+        WHERE u.id IN (SELECT f2.fromUserId
+                     FROM friendapplyrecord f2
+                     WHERE f2.toUserId = #{toUserId}) and u.id = f1.fromUserId and  f1.addStatus = 0
+    </select>
+
+    <!--获取申请好友的个数-->
+    <select id="getFriendApplyList" resultType="com.wiseapis.chat.bean.ApplyFriendInfoBean">
+        SELECT u.id,u.userName,u.age,u.sex,u.sex,f1.addStatus
+        FROM user u,friendapplyrecord f1
+        WHERE u.id IN (SELECT f2.fromUserId
+                     FROM friendapplyrecord f2
+                     WHERE f2.toUserId = #{toUserId}) AND u.id = f1.fromUserId
+    </select>
+
+    <!--删除申请记录-->
     <delete id="deleteApplyRecord">
         DELETE FROM friendapplyrecord
         WHERE fromUserId = #{fromUserId} AND toUserId = #{toUserId}
     </delete>
 
-    <insert id="addFriendShip">
-        INSERT INTO friends(friendId, userId, remarkName)
+    <!--真正添加为好友-->
+    <insert id="addFriendShip" parameterType="java.util.List">
+        INSERT INTO friends(
+        friendId,
+        userId,
+        remarkName
+        )
         VALUES
-        <foreach collection="friendList" item="friend" separator=",">
-            (#{friend.friendId},#{friend.userId},#{friend.remarkName})
+        <foreach collection="list" item="list" index="index" separator=",">
+            (
+            #{list.friendId},
+            #{list.userId},
+            #{list.remarkName}
+            )
         </foreach>
     </insert>
 
-    <select id="getFriendList" resultType="com.wiseapis.chat.bean.UserBean">
-        SELECT *
-        FROM user
-        WHERE id IN (SELECT friends.friendId
-                     FROM friends
-                     WHERE friends.userId = #{userId})
+    <!--获取好友列表-->
+    <select id="getFriendList" resultType="com.wiseapis.chat.bean.FriendBean">
+        SELECT f1.id,u.userName,u.age,u.sex,u.desc,f1.friendId,f1.remarkName
+        FROM user u,friends f1 WHERE  u.id = f1.friendId and f1.userId = #{userId}
     </select>
+
+    <!--获取最近联系人列表-->
+    <select id="getRecentContactList" resultType="com.wiseapis.chat.bean.RecentContactBean">
+        SELECT *
+        FROM recentcontacts
+        WHERE userId = #{userId}
+    </select>
+
+    <!--删除最近联系人-->
+    <delete id="deleteRecentContactInfo">
+        DELETE FROM recentcontacts
+        WHERE (userId = #{userId} and friendId = #{friendId}) or (userId = #{friendId} and friendId = #{userId})
+    </delete>
+
+    <!--添加最近联系人-->
+    <insert id="addRecentContactInfo" parameterType="java.util.List">
+        INSERT INTO recentcontacts(
+        friendId,
+        userId,
+        lastMessage
+        )
+        VALUES
+        <foreach collection="list" item="list" index="index" separator=",">
+            (
+            #{list.friendId},
+            #{list.userId},
+            #{list.lastMessage}
+            )
+        </foreach>
+    </insert>
 </mapper>

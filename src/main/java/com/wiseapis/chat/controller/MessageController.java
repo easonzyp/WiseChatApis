@@ -5,10 +5,7 @@ import com.wiseapis.chat.base.ResultGenerator;
 import com.wiseapis.chat.bean.MessageBean;
 import com.wiseapis.chat.bean.UserBean;
 import com.wiseapis.chat.interceptor.UserLoginToken;
-import com.wiseapis.chat.service.ChatService;
-import com.wiseapis.chat.service.JwtService;
-import com.wiseapis.chat.service.MessageService;
-import com.wiseapis.chat.service.UserService;
+import com.wiseapis.chat.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +26,8 @@ public class MessageController {
     JwtService jwtService;
     @Autowired
     ChatService chatService;
+    @Autowired
+    FriendService friendService;
 
     @UserLoginToken
     @ResponseBody
@@ -44,9 +43,21 @@ public class MessageController {
         message.setToUserId(toUserId);
         messageService.addMessage(message);
 
-//        Map<String, Object> messageMap = new HashMap<>();
-//        messageMap.put("content", content);
-//        messageMap.put("time", messageTemp.getMessageTime());
+        List<Map<String, Object>> contactInfo = new ArrayList<>();
+        Map<String, Object> messageMap1 = new HashMap<>();
+        messageMap1.put("lastMessage", content);
+        messageMap1.put("friendId", toUserId);
+        messageMap1.put("userId", fromUserId);
+        contactInfo.add(messageMap1);
+
+        Map<String, Object> messageMap2 = new HashMap<>();
+        messageMap2.put("lastMessage", content);
+        messageMap2.put("friendId", fromUserId);
+        messageMap2.put("userId", toUserId);
+        contactInfo.add(messageMap2);
+
+        //向最近联系人表中插入最后的聊天内容
+        friendService.addRecentContactInfo(fromUserId, toUserId, contactInfo);
 
         chatService.sendToUser(String.valueOf(toUserId), content);
         return ResultGenerator.genSuccessResult();

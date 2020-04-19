@@ -1,13 +1,12 @@
 package com.wiseapis.chat.bean;
 
-public class FriendBean {
+public class ApplyFriendInfoBean {
     private int id;
-    private int friendId;
-    private String remarkName;
     private String userName;
     private int age;
     private int sex;
     private String desc;
+    private String addStatus;
 
     public int getId() {
         return id;
@@ -15,14 +14,6 @@ public class FriendBean {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getFriendId() {
-        return friendId;
-    }
-
-    public void setFriendId(int friendId) {
-        this.friendId = friendId;
     }
 
     public String getUserName() {
@@ -57,11 +48,11 @@ public class FriendBean {
         this.desc = desc;
     }
 
-    public String getRemarkName() {
-        return remarkName;
+    public String getAddStatus() {
+        return addStatus;
     }
 
-    public void setRemarkName(String remarkName) {
-        this.remarkName = remarkName;
+    public void setAddStatus(String addStatus) {
+        this.addStatus = addStatus;
     }
 }
