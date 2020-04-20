@@ -23,6 +23,11 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<MessageBean> getMessageList(int fromUserId, int toUserId) {
-        return messageDao.getMessageHistory(fromUserId,toUserId);
+        return messageDao.getMessageHistory(fromUserId, toUserId);
+    }
+
+    @Override
+    public void clearUnReadMsgCount(int fromUserId, int toUserId) {
+        messageDao.clearUnReadMsgCount(fromUserId, toUserId);
     }
 }

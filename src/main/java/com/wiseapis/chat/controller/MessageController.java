@@ -1,11 +1,13 @@
 package com.wiseapis.chat.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wiseapis.chat.base.Result;
 import com.wiseapis.chat.base.ResultGenerator;
 import com.wiseapis.chat.bean.MessageBean;
 import com.wiseapis.chat.bean.UserBean;
 import com.wiseapis.chat.interceptor.UserLoginToken;
 import com.wiseapis.chat.service.*;
+import com.wiseapis.chat.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,7 +61,12 @@ public class MessageController {
         //向最近联系人表中插入最后的聊天内容
         friendService.addRecentContactInfo(fromUserId, toUserId, contactInfo);
 
-        chatService.sendToUser(String.valueOf(toUserId), content);
+        JSONObject messageJson = new JSONObject();
+        messageJson.put("friendId", fromUserId);
+        messageJson.put("content", content);
+        messageJson.put("sendTime", DateUtil.getCurrentTimeStr(DateUtil.YYYY_MM_DD_HH_MM_SS));
+
+        chatService.sendToUser(String.valueOf(toUserId), messageJson.toJSONString());
         return ResultGenerator.genSuccessResult();
     }
 
@@ -83,17 +90,28 @@ public class MessageController {
                 //代表是我发的
                 userBean = userService.getUserById(fromUserId);
                 messageMap.put("userName", userBean.getUserName());
-                messageMap.put("messageStatus", 0);
+                messageMap.put("sendOrReceive", 0);
                 messageList.add(messageMap);
             } else if (toUserIdTemp == fromUserId) {
                 //代表是我接的
                 userBean = userService.getUserById(toUserId);
                 messageMap.put("userName", userBean.getUserName());
-                messageMap.put("messageStatus", 1);
+                messageMap.put("sendOrReceive", 1);
                 messageList.add(messageMap);
             }
         }
-
+        messageService.clearUnReadMsgCount(fromUserId, toUserId);
         return ResultGenerator.genSuccessResult(messageList);
+    }
+
+    @UserLoginToken
+    @ResponseBody
+    @RequestMapping(value = "/clearUnReadMsgCount", method = RequestMethod.POST)
+    public Result clearUnReadMsgCount(@RequestBody HashMap<String, Object> params) {
+        int fromUserId = jwtService.getUserId();
+        int toUserId = (int) params.get("userId");
+
+        messageService.clearUnReadMsgCount(fromUserId, toUserId);
+        return ResultGenerator.genSuccessResult();
     }
 }

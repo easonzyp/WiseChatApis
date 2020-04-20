@@ -12,31 +12,39 @@
     <update id="agreeFriend">
         UPDATE friendapplyrecord
         SET addStatus = 1
-        WHERE fromUserId = #{fromUserId} and toUserId = #{toUserId}
+        WHERE fromUserId = #{fromUserId} AND toUserId = #{toUserId}
     </update>
 
     <!--获取好友的添加状态-->
     <select id="getAddStatus" resultType="java.lang.String">
-        select addStatus from friendapplyrecord
-        where (fromUserId = #{fromUserId} and toUserId = #{toUserId}) or (fromUserId = #{toUserId} and toUserId = #{fromUserId})
+        SELECT addStatus
+        FROM friendapplyrecord
+        WHERE (fromUserId = #{fromUserId} AND toUserId = #{toUserId}) OR
+              (fromUserId = #{toUserId} AND toUserId = #{fromUserId})
     </select>
 
     <!--获取申请记录中 未添加好友的个数-->
     <select id="getNoAddFriendCount" resultType="java.lang.Integer">
-       SELECT count(u.id)
-        FROM user u,friendapplyrecord f1
+        SELECT count(u.id)
+        FROM user u, friendapplyrecord f1
         WHERE u.id IN (SELECT f2.fromUserId
-                     FROM friendapplyrecord f2
-                     WHERE f2.toUserId = #{toUserId}) and u.id = f1.fromUserId and  f1.addStatus = 0
+                       FROM friendapplyrecord f2
+                       WHERE f2.toUserId = #{toUserId}) AND u.id = f1.fromUserId AND f1.addStatus = 0
     </select>
 
     <!--获取申请好友的个数-->
     <select id="getFriendApplyList" resultType="com.wiseapis.chat.bean.ApplyFriendInfoBean">
-        SELECT u.id,u.userName,u.age,u.sex,u.sex,f1.addStatus
-        FROM user u,friendapplyrecord f1
+        SELECT
+            u.id,
+            u.userName,
+            u.age,
+            u.sex,
+            u.sex,
+            f1.addStatus
+        FROM user u, friendapplyrecord f1
         WHERE u.id IN (SELECT f2.fromUserId
-                     FROM friendapplyrecord f2
-                     WHERE f2.toUserId = #{toUserId}) AND u.id = f1.fromUserId
+                       FROM friendapplyrecord f2
+                       WHERE f2.toUserId = #{toUserId}) AND u.id = f1.fromUserId
     </select>
 
     <!--删除申请记录-->
@@ -64,30 +72,56 @@
 
     <!--获取好友列表-->
     <select id="getFriendList" resultType="com.wiseapis.chat.bean.FriendBean">
-        SELECT f1.id,u.userName,u.age,u.sex,u.desc,f1.friendId,f1.remarkName
-        FROM user u,friends f1 WHERE  u.id = f1.friendId and f1.userId = #{userId}
+        SELECT
+            f1.id,
+            u.userName,
+            u.age,
+            u.sex,
+            u.desc,
+            f1.friendId,
+            f1.remarkName
+        FROM user u, friends f1
+        WHERE u.id = f1.friendId AND f1.userId = #{userId}
     </select>
 
     <!--获取最近联系人列表-->
+    <!--SELECT
+            r.id,
+            r.friendId,
+            u.userName AS friendName,
+            r.lastMessage,
+            r.sendTime
+        FROM user u, recentcontacts r
+        WHERE u.id = r.friendId AND userId = #{userId}
+        ORDER BY r.sendTime DESC-->
     <select id="getRecentContactList" resultType="com.wiseapis.chat.bean.RecentContactBean">
-        SELECT *
-        FROM recentcontacts
-        WHERE userId = #{userId}
+        SELECT
+            r.friendId,
+            r.lastMessage,
+            r.sendTime,
+            u.nickname,
+            f.remarkName,
+            (SELECT count(1)
+             FROM messages m
+             WHERE m.toUserId = r.userId AND m.fromUserId = r.friendId AND m.messageStatus = 0) AS unReadCount
+        FROM recentcontacts r
+            JOIN user u ON r.friendId = u.id
+            JOIN friends f ON (r.friendId = f.friendId AND r.userId = f.userId)
+                              AND r.userId = #{userId} AND f.friendId IN (SELECT friendId
+                                                                          FROM recentcontacts
+                                                                          WHERE userId = #{userId})
+        ORDER BY r.sendTime DESC;
     </select>
 
     <!--删除最近联系人-->
     <delete id="deleteRecentContactInfo">
         DELETE FROM recentcontacts
-        WHERE (userId = #{userId} and friendId = #{friendId}) or (userId = #{friendId} and friendId = #{userId})
+        WHERE (userId = #{userId} AND friendId = #{friendId}) OR (userId = #{friendId} AND friendId = #{userId})
     </delete>
 
     <!--添加最近联系人-->
     <insert id="addRecentContactInfo" parameterType="java.util.List">
-        INSERT INTO recentcontacts(
-        friendId,
-        userId,
-        lastMessage
-        )
+        INSERT INTO recentcontacts(friendId,userId,lastMessage)
         VALUES
         <foreach collection="list" item="list" index="index" separator=",">
             (

@@ -10,4 +10,6 @@ public interface MessageService {
     void addMessage(MessageBean message);
 
     List<MessageBean> getMessageList(int fromUserId, int toUserId);
+
+    void clearUnReadMsgCount(int fromUserId, int toUserId);
 }

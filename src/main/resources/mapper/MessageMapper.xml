@@ -2,14 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wiseapis.chat.dao.MessageDao">
 
+    <!--添加消息-->
     <insert id="addMessage">
         INSERT INTO messages (content, fromUserId, toUserId)
         VALUES (#{message.content}, #{message.fromUserId}, #{message.toUserId})
     </insert>
 
+    <!--获取聊天记录-->
     <select id="getMessageHistory" resultType="com.wiseapis.chat.bean.MessageBean">
         SELECT *
         FROM messages
         WHERE fromUserId = #{fromUserId} OR fromUserId = #{toUserId}
     </select>
+
+    <!--清零未读消息数量-->
+    <update id="clearUnReadMsgCount">
+        UPDATE messages
+        SET messageStatus = 1
+        WHERE id IN (SELECT a.id
+                     FROM (SELECT id
+                           FROM messages
+                           WHERE fromUserId = #{toUserId} AND toUserId = #{fromUserId}) a)
+    </update>
 </mapper>

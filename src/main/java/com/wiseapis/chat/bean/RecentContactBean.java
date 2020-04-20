@@ -1,20 +1,13 @@
 package com.wiseapis.chat.bean;
 
 public class RecentContactBean {
-    private int id;
     private int friendId;
-    private int userId;
+    private String remarkName;
+    private String userName;
+    private String nickname;
     private String lastMessage;
     private String sendTime;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    private int unReadCount;
     public int getFriendId() {
         return friendId;
     }
@@ -23,12 +16,28 @@ public class RecentContactBean {
         this.friendId = friendId;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getRemarkName() {
+        return remarkName;
+    }
+
+    public void setRemarkName(String remarkName) {
+        this.remarkName = remarkName;
     }
 
     public String getLastMessage() {
@@ -45,5 +54,13 @@ public class RecentContactBean {
 
     public void setSendTime(String sendTime) {
         this.sendTime = sendTime;
+    }
+
+    public int getUnReadCount() {
+        return unReadCount;
+    }
+
+    public void setUnReadCount(int unReadCount) {
+        this.unReadCount = unReadCount;
     }
 }

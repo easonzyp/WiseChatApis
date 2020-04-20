@@ -13,5 +13,8 @@ public interface MessageDao {
     void addMessage(@Param(value = "message") MessageBean message);
 
     List<MessageBean> getMessageHistory(@Param(value = "fromUserId") int fromUserId,
-                                        @Param(value = "toUserId")int toUserId);
+                                        @Param(value = "toUserId") int toUserId);
+
+    void clearUnReadMsgCount(@Param(value = "fromUserId") int fromUserId,
+                             @Param(value = "toUserId") int toUserId);
 }

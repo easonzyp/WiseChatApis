@@ -1,10 +1,7 @@
 package com.wiseapis.chat.service;
 
-import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import javax.websocket.EncodeException;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
@@ -33,18 +30,17 @@ public class ChatService {
     }
 
     public void sendToUser(String toUserId, String message) {
-
         try {
             if (webSocketSet.get(toUserId) != null) {
                 webSocketSet.get(toUserId).sendMessage(message);
             }
             System.out.println(message);
-        } catch (IOException | EncodeException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void sendMessage(String message) throws IOException, EncodeException {
+    private void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);
     }
 }
