@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wise.develop.ChatApis.dao.FriendDao">
+<mapper namespace="com.wise.develop.WiseChatApis.dao.FriendDao">
 
     <!--申请好友-->
     <insert id="applyFriend">
@@ -33,7 +33,7 @@
     </select>
 
     <!--获取申请好友的个数-->
-    <select id="getFriendApplyList" resultType="com.wise.develop.ChatApis.bean.ApplyFriendInfoBean">
+    <select id="getFriendApplyList" resultType="com.wise.develop.WiseChatApis.bean.ApplyFriendInfoBean">
         SELECT
             u.id,
             u.userName,
@@ -71,7 +71,7 @@
     </insert>
 
     <!--获取好友列表-->
-    <select id="getFriendList" resultType="com.wise.develop.ChatApis.bean.FriendBean">
+    <select id="getFriendList" resultType="com.wise.develop.WiseChatApis.bean.FriendBean">
         SELECT
             f1.id,
             u.userName,
@@ -94,7 +94,7 @@
         FROM user u, recentcontacts r
         WHERE u.id = r.friendId AND userId = #{userId}
         ORDER BY r.sendTime DESC-->
-    <select id="getRecentContactList" resultType="com.wise.develop.ChatApis.bean.RecentContactBean">
+    <select id="getRecentContactList" resultType="com.wise.develop.WiseChatApis.bean.RecentContactBean">
         SELECT
             r.friendId,
             r.lastMessage,

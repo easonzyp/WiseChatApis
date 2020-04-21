@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.wise.develop</groupId>
-    <artifactId>ChatApis</artifactId>
+    <artifactId>WiseChatApis</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ChatApis</name>
+    <name>WiseChatApis</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
