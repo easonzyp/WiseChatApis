@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wiseapis.chat.dao.MessageDao">
+<mapper namespace="com.wise.develop.ChatApis.dao.MessageDao">
 
     <!--添加消息-->
     <insert id="addMessage">
@@ -9,7 +9,7 @@
     </insert>
 
     <!--获取聊天记录-->
-    <select id="getMessageHistory" resultType="com.wiseapis.chat.bean.MessageBean">
+    <select id="getMessageHistory" resultType="com.wise.develop.ChatApis.bean.MessageBean">
         SELECT *
         FROM messages
         WHERE fromUserId = #{fromUserId} OR fromUserId = #{toUserId}

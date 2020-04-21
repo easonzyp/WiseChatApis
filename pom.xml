@@ -8,10 +8,10 @@
         <version>2.2.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.wiseapis</groupId>
-    <artifactId>chat</artifactId>
+    <groupId>com.wise.develop</groupId>
+    <artifactId>ChatApis</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>chat</name>
+    <name>ChatApis</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
