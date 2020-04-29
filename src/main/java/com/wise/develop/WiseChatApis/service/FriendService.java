@@ -27,4 +27,6 @@ public interface FriendService {
     void deleteRecentContactInfo(int userId, int friendId);
 
     void addRecentContactInfo(int userId, int friendId, List<Map<String, Object>> contactInfo);
+
+    String getFriendRemarkName(int fromUserId, int toUserId);
 }

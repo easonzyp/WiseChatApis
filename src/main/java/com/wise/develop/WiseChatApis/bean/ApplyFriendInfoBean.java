@@ -6,6 +6,7 @@ public class ApplyFriendInfoBean {
     private int age;
     private int sex;
     private String desc;
+    private String userHeader;
     private String addStatus;
 
     public int getId() {
@@ -54,5 +55,13 @@ public class ApplyFriendInfoBean {
 
     public void setAddStatus(String addStatus) {
         this.addStatus = addStatus;
+    }
+
+    public String getUserHeader() {
+        return userHeader;
+    }
+
+    public void setUserHeader(String userHeader) {
+        this.userHeader = userHeader;
     }
 }

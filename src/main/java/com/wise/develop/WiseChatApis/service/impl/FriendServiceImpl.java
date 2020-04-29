@@ -65,4 +65,9 @@ public class FriendServiceImpl implements FriendService {
         deleteRecentContactInfo(userId, friendId);
         friendDao.addRecentContactInfo(contactInfo);
     }
+
+    @Override
+    public String getFriendRemarkName(int fromUserId, int toUserId) {
+        return friendDao.getFriendRemarkName(fromUserId,toUserId);
+    }
 }

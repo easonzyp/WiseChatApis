@@ -3,8 +3,8 @@
 <mapper namespace="com.wise.develop.WiseChatApis.dao.UserDao">
 
     <insert id="createUser">
-        INSERT INTO user (nickname, userName, password)
-        VALUES (#{nickname}, #{userName}, #{password})
+        INSERT INTO user (nickName, userName, password)
+        VALUES (#{nickName}, #{userName}, #{password})
     </insert>
 
     <update id="saveToken">
@@ -35,4 +35,16 @@
         SELECT *
         FROM user
     </select>
+
+    <update id="updateUser">
+        UPDATE user
+        SET userHeader   = #{userInfo.userHeader},
+            nickName     = #{userInfo.nickName},
+            sex          = #{userInfo.sex},
+            userLocation = #{userInfo.userLocation},
+            birth        = #{userInfo.birth},
+            age          = #{userInfo.age},
+            `desc`       = #{userInfo.desc}
+        WHERE id = #{userInfo.id}
+    </update>
 </mapper>

@@ -3,12 +3,15 @@ package com.wise.develop.WiseChatApis.bean;
 public class UserBean {
     private int id;
     private String userName;
-    private String nickname;
+    private String nickName;
     private String userToken;
     private String password;
     private int age;
     private int sex;
     private String desc;
+    private String userHeader;
+    private String userLocation;
+    private String birth;
 
     public int getId() {
         return id;
@@ -26,12 +29,12 @@ public class UserBean {
         this.password = password;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getUserName() {
@@ -72,5 +75,29 @@ public class UserBean {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String getUserHeader() {
+        return userHeader;
+    }
+
+    public void setUserHeader(String userHeader) {
+        this.userHeader = userHeader;
+    }
+
+    public String getUserLocation() {
+        return userLocation;
+    }
+
+    public void setUserLocation(String userLocation) {
+        this.userLocation = userLocation;
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 }

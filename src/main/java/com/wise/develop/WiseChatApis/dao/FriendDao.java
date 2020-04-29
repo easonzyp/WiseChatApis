@@ -33,4 +33,6 @@ public interface FriendDao {
     void deleteRecentContactInfo(@Param(value = "userId") int userId, @Param(value = "friendId") int friendId);
 
     void addRecentContactInfo(@Param(value = "list") List<Map<String, Object>> contactInfo);
+
+    String getFriendRemarkName(@Param(value = "userId") int fromUserId, @Param(value = "friendId") int toUserId);
 }

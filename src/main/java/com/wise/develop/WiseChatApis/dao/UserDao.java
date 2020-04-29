@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface UserDao {
 
-    void createUser(@Param(value = "nickname") String nickname,
+    void createUser(@Param(value = "nickName") String nickName,
                     @Param(value = "userName") String userName,
                     @Param(value = "password") String password);
 
@@ -25,4 +25,6 @@ public interface UserDao {
     List<UserBean> getUserList();
 
     void saveToken(@Param(value = "userToken") String userToken, @Param(value = "id") int id);
+
+    void updateUser(@Param(value = "userInfo") UserBean userInfo);
 }

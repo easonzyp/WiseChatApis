@@ -5,6 +5,7 @@ public class FriendBean {
     private int friendId;
     private String remarkName;
     private String userName;
+    private String userHeader;
     private int age;
     private int sex;
     private String desc;
@@ -31,6 +32,14 @@ public class FriendBean {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getUserHeader() {
+        return userHeader;
+    }
+
+    public void setUserHeader(String userHeader) {
+        this.userHeader = userHeader;
     }
 
     public int getAge() {

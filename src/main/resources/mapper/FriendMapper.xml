@@ -32,14 +32,22 @@
                        WHERE f2.toUserId = #{toUserId}) AND u.id = f1.fromUserId AND f1.addStatus = 0
     </select>
 
-    <!--获取申请好友的个数-->
+    <!--获取好友的备注名称-->
+    <select id="getFriendRemarkName" resultType="java.lang.String">
+        SELECT remarkName
+        FROM friends
+        WHERE userId = #{userId} AND friendId = #{friendId}
+    </select>
+
+    <!--获取申请好友的列表-->
     <select id="getFriendApplyList" resultType="com.wise.develop.WiseChatApis.bean.ApplyFriendInfoBean">
         SELECT
             u.id,
             u.userName,
             u.age,
             u.sex,
-            u.sex,
+            u.userHeader,
+            u.desc,
             f1.addStatus
         FROM user u, friendapplyrecord f1
         WHERE u.id IN (SELECT f2.fromUserId
@@ -77,6 +85,7 @@
             u.userName,
             u.age,
             u.sex,
+            u.userHeader,
             u.desc,
             f1.friendId,
             f1.remarkName
@@ -85,21 +94,13 @@
     </select>
 
     <!--获取最近联系人列表-->
-    <!--SELECT
-            r.id,
-            r.friendId,
-            u.userName AS friendName,
-            r.lastMessage,
-            r.sendTime
-        FROM user u, recentcontacts r
-        WHERE u.id = r.friendId AND userId = #{userId}
-        ORDER BY r.sendTime DESC-->
     <select id="getRecentContactList" resultType="com.wise.develop.WiseChatApis.bean.RecentContactBean">
         SELECT
             r.friendId,
             r.lastMessage,
             r.sendTime,
-            u.nickname,
+            u.nickName,
+            u.userHeader,
             f.remarkName,
             (SELECT count(1)
              FROM messages m

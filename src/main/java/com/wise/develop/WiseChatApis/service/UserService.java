@@ -18,4 +18,6 @@ public interface UserService {
     List<UserBean> getUserList();
 
     void saveToken(String userToken, int id);
+
+    void updateUser(UserBean userInfo);
 }

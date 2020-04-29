@@ -25,11 +25,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserBean createUser(String userName, String password) {
-        String nickname = RandomUtil.getNumLargeSmallLetter(10);
-        userDao.createUser(nickname, userName, password);
-        UserBean userBean = userDao.getUserByName(userName);
-        String token = JwtService.token(userBean.getId());
-        userDao.saveToken(token, userBean.getId());
+        String nickName = RandomUtil.getNumLargeSmallLetter(10);
+        userDao.createUser(nickName, userName, password);
         return userDao.getUserByName(userName);
     }
 
@@ -51,5 +48,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveToken(String userToken, int id) {
         userDao.saveToken(userToken, id);
+    }
+
+    @Override
+    public void updateUser(UserBean userInfo) {
+        userDao.updateUser(userInfo);
     }
 }

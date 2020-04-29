@@ -4,7 +4,8 @@ public class RecentContactBean {
     private int friendId;
     private String remarkName;
     private String userName;
-    private String nickname;
+    private String nickName;
+    private String userHeader;
     private String lastMessage;
     private String sendTime;
     private int unReadCount;
@@ -24,12 +25,12 @@ public class RecentContactBean {
         this.userName = userName;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getRemarkName() {
@@ -38,6 +39,14 @@ public class RecentContactBean {
 
     public void setRemarkName(String remarkName) {
         this.remarkName = remarkName;
+    }
+
+    public String getUserHeader() {
+        return userHeader;
+    }
+
+    public void setUserHeader(String userHeader) {
+        this.userHeader = userHeader;
     }
 
     public String getLastMessage() {
